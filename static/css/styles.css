@@ -1,0 +1,102 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-image: url('/static/images/back.avif');
+    background-size: cover;  
+    background-position: center center; 
+    color: #333;
+}
+
+h1 {
+    font-size: 28px;
+    color: #138fe2;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+textarea {
+    width: 100%;
+    height: 200px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: none;
+    margin-bottom: 15px;
+    background-color: #fff;
+}
+
+button {
+    padding: 12px 25px;
+    background-color: #138fe2;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 20%;
+    margin: 10px auto;
+    display: block;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #186ca4;
+}
+
+#summary {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    width: 100%;
+    word-wrap: break-word;
+}
+
+#summary h3 {
+    margin-top: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+audio {
+    margin-top: 10px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+/* Navigation Bar Styles */
+nav {
+    background-color: #138fe2;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 20px;
+    display: inline-block;
+}
+
+nav ul li a:hover {
+    background-color: #186ca4;
+    border-radius: 4px;
+}

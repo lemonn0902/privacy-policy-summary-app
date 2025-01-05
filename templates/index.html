@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy Summarizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#try-it">Try It!</a></li>
+            <li><a href="#translate">Translate</a></li>
+        </ul>
+    </nav>
+    <h1>Privacy Policy Summarizer</h1>
+    <form id="privacyForm">
+        <textarea id="privacyPolicy" placeholder="Paste the privacy policy text here..." required></textarea>
+        <br>
+        <button type="submit">Summarize</button>
+    </form>
+    
+
+    <h3>Summary:</h3>
+    <div id="summary"></div>
+
+    <h3>Listen to the Summary:</h3>
+    <audio id="audioPlayer" controls style="display:none;">
+        <source id="audioSource" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // Handle the form submission
+        document.getElementById('privacyForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const privacyPolicy = document.getElementById('privacyPolicy').value;
+            if (privacyPolicy) {
+                fetch('http://127.0.0.1:5000/summarize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ privacy_policy: privacyPolicy })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.summary) {
+                        document.getElementById('summary').innerText = data.summary;
+
+                        // Show the audio player and update the source
+                        const audioPlayer = document.getElementById('audioPlayer');
+                        const audioSource = document.getElementById('audioSource');
+                        audioSource.src = data.audio_url;
+                        audioPlayer.style.display = 'block';
+                        audioPlayer.load(); // Load the new audio source
+                        audioPlayer.play(); // Play the audio
+                    } else {
+                        document.getElementById('summary').innerText = "Error: Unable to summarize.";
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('summary').innerText = "Error: " + error.message;
+                });
+            } else {
+                alert("Please enter the privacy policy text.");
+            }
+        });
+    </script>
+</body>
+</html>
