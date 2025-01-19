@@ -35,7 +35,7 @@ PrivacyLens is an AI-powered web application that simplifies privacy policies in
 
 1. Clone the repository:
 ```bash
-git clone [https://github.com/lemonn0902/privacy-policy-summary-app.git](https://github.com/lemonn0902/privacy-policy-summary-app.git)
+git clone https://github.com/lemonn0902/privacy-policy-summary-app.git
 cd privacy-policy-summary-app
 ```
 
