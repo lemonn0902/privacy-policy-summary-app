@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Try Privacy Policy Summarizer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}" class="active">Home 🏠</a></li>
+            <li><a href="{{url_for('about')}}">About Us ℹ️</a></li>
+            <li><a href="{{ url_for('try_it') }}">Try It! 🚀</a></li>
+            <li><a href="{{ url_for('translate')}}">Translate 🌐</a></li>
+            <li><a href="/chat" class="hover:text-indigo-200 transition-colors">Chat 💬</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-content">
+        <h1>Analyze Your Privacy Policy</h1>
+        
+        <form id="privacyForm">
+            <textarea id="privacyPolicy" placeholder="Paste the privacy policy text here..." required></textarea>
+            <br>
+            <button type="submit">✨ Summarize</button>
+        </form>
+
+        <div class="results-section">
+            <h3>📋 Summary:</h3>
+            <div id="summary"></div>
+
+            <h3>🔊 Listen to the Summary:</h3>
+            <audio id="audioPlayer" controls style="display:none;">
+                <source id="audioSource" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+
+            <div class="summary-actions">
+                <button id="gradeButton" style="display:none;" onclick="gradeSummary()">Grade Summary</button>
+                <div class="grade-results" style="display:none;">
+                    <h3>📊 Risk Grade:</h3>
+                    <div id="riskGrade"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+
+    <script>
+        // Handle the form submission
+        document.getElementById('privacyForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const privacyPolicy = document.getElementById('privacyPolicy').value;
+            if (privacyPolicy) {
+                fetch('/summarize', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ privacy_policy: privacyPolicy })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.summary) {
+                        document.getElementById('summary').innerText = data.summary;
+
+                        // Show the audio player and update the source
+                        const audioPlayer = document.getElementById('audioPlayer');
+                        const audioSource = document.getElementById('audioSource');
+                        audioSource.src = data.audio_url;
+                        audioPlayer.style.display = 'block';
+                        audioPlayer.load();
+                        audioPlayer.play();
+                        document.getElementById('gradeButton').style.display = 'inline-block';
+                    } else {
+                        document.getElementById('summary').innerText = "Error: Unable to summarize.";
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('summary').innerText = "Error: " + error.message;
+                });
+            } else {
+                alert("Please enter the privacy policy text.");
+            }
+        });
+
+        function gradeSummary() {
+            const summaryText = document.getElementById('summary').innerText;
+            if (summaryText) {
+                fetch('/grade', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ summary: summaryText })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.grade && data.score !== undefined) {
+                        document.getElementById('riskGrade').innerHTML = `
+                            <strong>Risk Grade:</strong> ${data.grade}<br>
+                            <strong>Risk Score:</strong> ${data.score}
+                        `;
+                        document.querySelector('.grade-results').style.display = 'block';
+                    } else {
+                        document.getElementById('riskGrade').innerText = "Error: Unable to grade.";
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('riskGrade').innerText = "Error: " + error.message;
+                });
+            } else {
+                alert("No summary available to grade.");
+            }
+        }
+
+        // Theme toggle functionality
+        function setupThemeToggle() {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+            updateThemeButton(theme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const button = document.querySelector('.theme-toggle');
+            button.innerHTML = theme === 'light' ? '🌙' : '☀️';
+        }
+
+        document.addEventListener('DOMContentLoaded', setupThemeToggle);
+    </script>
+</body>
+</html>

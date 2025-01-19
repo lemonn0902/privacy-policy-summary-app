@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home 🏠</a></li>
+            <li><a href="{{url_for('about')}}">About Us ℹ️</a></li>
+            <li><a href="{{ url_for('try_it') }}">Try It! 🚀</a></li>
+            <li><a href="{{ url_for('translate') }}">Translate 🌐</a></li>
+            <li><a href="/chat" class="hover:text-indigo-200 transition-colors">Chat 💬</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>About Us</h1>
+        <p>
+            Welcome to Your Partner in Online Safety! We are dedicated to helping users navigate the complexities of privacy policies and ensuring that their data remains secure. Our platform is designed to analyze and summarize privacy policies, providing users with clear insights into the risks associated with various apps and websites.
+        </p>
+        <p>
+            We believe that privacy education is essential in today’s digital world. Our tool aims to make understanding privacy policies simpler and more accessible, so users can make informed decisions about their data and privacy settings.
+        </p>
+
+        <h2>Our Mission</h2>
+        <p>
+            Our mission is to empower individuals with the knowledge they need to protect their personal data. We are committed to helping users understand the privacy risks involved in their digital interactions and offering tools to help safeguard their information.
+        </p>
+
+        <h2>Features</h2>
+        <ul>
+            <li><strong>Privacy Policy Summarization:</strong> Our platform simplifies complex privacy policies into clear and easy-to-understand summaries, allowing users to quickly grasp key information about how their data is used.</li>
+            <li><strong>Risk Grading:</strong> We assign a risk grade (A to E) to each privacy policy based on compliance with privacy laws, data collection practices, and third-party sharing, helping users make informed choices.</li>
+            <li><strong>Language Translation:</strong> The platform offers multilingual support, translating privacy policies into different languages to cater to a global audience.</li>
+            <li><strong>Audio Help:</strong> For accessibility, users can listen to a narrated version of the summarized privacy policy, making it easier for people with visual impairments or those who prefer audio formats.</li>
+            <li><strong>Chatbot:</strong> Our chatbot can guide users through the platform, answer their questions about privacy policies, and offer real-time assistance on navigating privacy risks.</li>
+        </ul>
+
+
+        <h2>Contact Us</h2>
+        <p>
+            If you have any questions, suggestions, or feedback, feel free to reach out to us at <a href="mailto:shreyas.cy23@rvce.edu.in">shreyas.cy23@rvce.edu.in</a>.
+        </p>
+
+        
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Your Partner in Online Safety. All rights reserved.</p>
+    </footer>
+
+    
+</body>
+</html>

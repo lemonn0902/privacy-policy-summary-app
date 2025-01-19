@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Translation</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/translate.css') }}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}" class="active">Home 🏠</a></li>
+            <li><a href="{{ url_for('about') }}">About Us ℹ️</a></li>
+            <li><a href="{{ url_for('try_it') }}">Try It! 🚀</a></li>
+            <li><a href="{{ url_for('translate') }}">Translate 🌐</a></li>
+            <li><a href="/chat" class="hover:text-indigo-200 transition-colors">Chat 💬</a></li>
+        </ul>
+    </nav>
+
+  <div class="container">
+    <h1>Text Translation</h1>
+
+    <!-- Input for text to be translated -->
+    <label for="input">Enter text in English:</label>
+    <textarea id="inputText" placeholder="Type your text here..."></textarea>
+
+    <!-- Dropdown for selecting language -->
+    <label for="languageSelect">Select Language:</label>
+    <select id="languageSelect">
+      <option value="kn">Kannada</option>
+      <option value="hi">Hindi</option>
+      <option value="ta">Tamil</option>
+      <option value="ml">Malayalam</option>
+      <!-- Add more languages as needed -->
+    </select>
+
+    <!-- Button to trigger translation -->
+    <button id="translateButton">Translate</button>
+
+    <!-- Output for translated text -->
+    <label for="outputText">Translated Text:</label>
+    <textarea id="outputText" readonly placeholder="Translated text will appear here..."></textarea>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/translate.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrivacyLens - Chat with AI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --text-primary: #ffffff;
+            --card-bg: #2d2d2d;
+        }
+        
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --text-primary: #1a1a1a;
+            --card-bg: #f3f4f6;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .chat-container {
+            background-color: var(--card-bg);
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background-color: #4f46e5;
+            color: white;
+        }
+
+        .bot-message {
+            background-color: var(--card-bg);
+            border: 1px solid #e5e7eb;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 50;
+            padding: 1rem;
+            border-radius: 50%;
+            background-color: var(--card-bg);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Navigation Bar -->
+    <nav class="bg-indigo-600 text-white py-4 px-6 shadow-md">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="text-2xl font-bold">PrivacyLens</div>
+            <ul class="flex space-x-8">
+                <li><a href="/" class="hover:text-indigo-200 transition-colors">Home 🏠</a></li>
+                <li><a href="/about" class="hover:text-indigo-200 transition-colors">About Us ℹ️</a></li>
+                <li><a href="/try-it" class="hover:text-indigo-200 transition-colors">Try It! 🚀</a></li>
+                <li><a href="/translate" class="hover:text-indigo-200 transition-colors">Translate 🌐</a></li>
+                <li><a href="/chat" class="hover:text-indigo-200 transition-colors">Chat 💬</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-4 py-8">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold mb-4">Chat with PrivacyLens AI</h1>
+            <p class="text-lg">Ask questions about privacy policies and get instant answers!</p>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="chat-container rounded-lg shadow-lg p-4 mb-4 h-[500px] flex flex-col">
+            <div id="chat-messages" class="flex-1 overflow-y-auto space-y-4 mb-4">
+                <!-- Messages will be inserted here -->
+                <div class="flex items-start mb-4">
+                    <div class="message-bubble bot-message rounded-lg p-3 ml-2">
+                        Hello! I'm your PrivacyLens assistant. How can I help you understand privacy policies better?
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="flex items-center gap-2">
+                <input type="text" id="user-input" 
+                       class="flex-1 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                       placeholder="Type your message here..."
+                       onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()" 
+                        class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors">
+                    Send
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+
+    <script>
+        function setupThemeToggle() {
+            const theme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', theme);
+            updateThemeButton(theme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const button = document.querySelector('.theme-toggle');
+            button.innerHTML = theme === 'light' ? '🌙' : '☀️';
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function appendMessage(message, isUser) {
+            const chatMessages = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'flex items-start mb-4 ' + (isUser ? 'justify-end' : '');
+            
+            const messageBubble = document.createElement('div');
+            messageBubble.className = `message-bubble ${isUser ? 'user-message' : 'bot-message'} rounded-lg p-3 ${isUser ? 'mr-2' : 'ml-2'}`;
+            messageBubble.textContent = message;
+            
+            messageDiv.appendChild(messageBubble);
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('user-input');
+            const message = input.value.trim();
+            
+            if (message) {
+                // Clear input
+                input.value = '';
+                
+                // Append user message
+                appendMessage(message, true);
+                
+                try {
+                    // Send message to server
+                    const response = await fetch('/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ question: message }),
+                    });
+                    
+                    const data = await response.json();
+                    
+                    // Append bot response
+                    appendMessage(data.response, false);
+                } catch (error) {
+                    console.error('Error:', error);
+                    appendMessage('Sorry, there was an error processing your message.', false);
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', setupThemeToggle);
+    </script>
+</body>
+</html>
