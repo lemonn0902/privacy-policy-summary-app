@@ -102,7 +102,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Authors
 
-- Your Name - [@lemonn0902]([https://github.com/yourgithubhandle)](https://github.com/lemonn0902)
+- Shreya Srivastava - ([https://github.com/yourgithubhandle)](https://github.com/lemonn0902)
 
 ## 📞 Support
 
