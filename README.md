@@ -35,8 +35,8 @@ PrivacyLens is an AI-powered web application that simplifies privacy policies in
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/privacylens.git
-cd privacylens
+git clone [https://github.com/lemonn0902/privacy-policy-summary-app.git](https://github.com/lemonn0902/privacy-policy-summary-app.git)
+cd privacy-policy-summary-app
 ```
 
 2. Create and activate a virtual environment:
@@ -70,7 +70,7 @@ http://127.0.0.1:5000
 ## 📁 Project Structure
 
 ```
-privacylens/
+privacy-policy-summary-app/
 ├── app.py                 # Main Flask application
 ├── sum.py                 # Summarization functions (T5 model)
 ├── sentiment.py           # Sentiment analysis functions (BERT model)
